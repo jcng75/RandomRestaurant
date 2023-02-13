@@ -1,11 +1,11 @@
-Models:
+Models
 
 User:
 Username - Text
 Password - Text
 Saved Restaurants - List of locations
 
-Location
+Location:
 Name of Restaurant - Text
 Address - Text
 Restaurant Type - Text
