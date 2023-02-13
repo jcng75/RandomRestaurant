@@ -1,0 +1,18 @@
+Models:
+
+User:
+Username - Text
+Password - Text
+Saved Restaurants - List of locations
+
+Location
+Name of Restaurant - Text
+Address - Text
+Restaurant Type - Text
+Pricing - Text (Either $/$$/$$$)
+Phone Number - Text
+Restaurant Photos - list of images
+Distance - Number
+Rating - Number
+Open/Close time - Text
+
