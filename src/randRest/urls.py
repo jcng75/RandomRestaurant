@@ -5,7 +5,8 @@ my_app = "randRest"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("", views.login, name="login"),
-    path("", views.signup, name="signup"),
-    path("", views.home, name="home"),
+    path("login", views.login, name="login"),
+    path("signup", views.signup, name="signup"),
+    path("home", views.home, name="home"),
+    path("saved", views.saved, name="saved"),
 ]

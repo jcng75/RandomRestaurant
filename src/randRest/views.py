@@ -14,3 +14,6 @@ def signup(request):
 
 def home(request):
     return HttpResponse("home page")
+
+def saved(request):
+    return HttpResponse("saved page")
