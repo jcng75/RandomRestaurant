@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Signed Out</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid bg-success text-white p-3">
+    <h1> You have successfully logged out. Please <a href="{% url 'login' %}">sign in</a> again to access the website. </h1>
+</div>
+{% endblock %}

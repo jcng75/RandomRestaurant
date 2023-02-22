@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand bg-secondary">
+    <a class="navbar-brand text-white">RandRestaurant</a>
+    <div class="container-fluid">
+        <!-- Links -->
+        <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'home' %}">
+                <i class="bi bi-house-door-fill"></i> Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'settings' %}">
+                <i class="bi bi-gear-fill"></i> Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'saved' %}">
+                <i class="bi bi-bookmark-fill"></i> Saved Restaurants</a>
+        </li>
+        </ul>
+        <div class="float-right text-white">
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown">
+                    <i class="bi bi-person"></i> <span id="usernameNav">username</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">
+                        <i class="bi bi-box-arrow-right"></i> Signout </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</nav>

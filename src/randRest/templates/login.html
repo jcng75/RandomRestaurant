@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Login Page</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-xxl bg-dark mb-10">
+    <h1 class="text-white text-center"><i class="bi bi-door-closed-fill"></i>Login Page</h1>
+    <form class="text-white" action="">
+        {% csrf_token %}
+        <label for="username">Username</label>
+        <input id="username" type="text" class="form-control" placeholder="Enter your Username">
+        <label for="password">Password</label>
+        <input id="password" type="password" class="form-control mb-3" placeholder="Enter your Password">
+        <button type="submit" class="btn btn-primary btn-rounded"><i class="bi bi-door-closed-fill mr-3"></i>Login</button>
+    </form>
+    <p class="text-white mt-3"> Don't have an account?</p>
+    <a class="btn btn-danger rounded mb-5" href="{% url 'signup' %}"> <i class="bi bi-pencil-square"></i> Sign Up!</a>
+</div>
+{% endblock %}
