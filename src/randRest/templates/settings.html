@@ -6,5 +6,38 @@
 
 {% block body %}
 {% include "nav.html" %}
-<h1>Settings</h1>
+<div class="container-fluid bg-dark text-white">
+    <h1>Settings</h1>
+    <div class="border border-white" style="margin-bottom: 50px;">
+        <h1>Filters</h1>
+        <label for="distance">Distance</label>
+        <input id="distance" type="text"/>
+        <label for="rating">Rating</label>
+        <input id="rating" type="text"/>
+        <label for="pricing">Pricing</label>
+        <select id="pricing">
+            <option value="$">$</option>
+            <option value="$$">$$</option>
+            <option value="$$$">$$$</option>
+        </select>
+    </div>
+    <div class="border border-white" style="margin-bottom: 50px;">
+        <h1>Sort Saved Restaurants</h1>
+        <label for="type">Type</label>
+        <select id="type">
+            <option value="alpha">Alphabetical Order</option>
+            <option value="rating">Rating</option>
+            <option value="pricing">Pricing</option>
+        </select>
+        <label for="order">Order</label>
+        <select id="order">
+            <option value="high2low">Highest To Lowest</option>
+            <option value="low2high">Lowest To Highest</option>
+        </select>
+    </div>
+    <div class="border border-info">
+
+    </div>
+
+</div>
 {% endblock %}
