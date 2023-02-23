@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
@@ -11,7 +12,7 @@ def login(request):
     return render(request, "login.html")
 
 def signup(request):
-    return render(request, "signup.html")
+    return render(request, "signup.html")    
 
 def home(request):
     return render(request, "home.html")

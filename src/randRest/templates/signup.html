@@ -5,22 +5,31 @@
 {% endblock %}
 
 {% block body %}
+
+{% if messages %}
+<div class="panel-collapse collapse">
+    <ul class="list-group">
+        {% for message in messages %}
+        <li class="list-group-item">
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 <div class="container-xxl bg-dark mb-10">
     <h1 class="text-white text-center"><i class="bi bi-pencil-square p-1"></i>Signup Page</h1>
-    <form class="text-white" action="">
-        <label for="firstname">First Name</label>
-        <input id="firstname" type="text" class="form-control" placeholder="Enter your First Name">
-        <label for="lastname">Last Name</label>
-        <input id="lastname" type="text" class="form-control" placeholder="Enter your Last Name">
-        <label for="email">Email</label>
-        <input id="email" type="text" class="form-control" placeholder="Enter your Email">
-        <label for="username">Username</label>
-        <input id="username" type="text" class="form-control" placeholder="Enter your Username">
-        <label for="password1">Password</label>
-        <input id="password1" type="password" class="form-control mb-3" placeholder="Enter your Password">
-        <label for="password2">Confirmation Password</label>
-        <input id="password2" type="password" class="form-control mb-3" placeholder="Please Re-enter your Password">
-        <button type="submit" class="btn btn-primary btn-rounded"><i class="bi bi-door-closed-fill mr-3"></i>Sign Up!</button>
+    <form class="text-white" method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <label for="email">Email</label>
+            <input id="email" type="text" class="form-control" placeholder="Enter your Email">
+            <label for="username">Username</label>
+            <input id="username" type="text" class="form-control" placeholder="Enter your Username">
+            <label for="password1">Password</label>
+            <input id="password1" type="password" class="form-control" placeholder="Enter your Password">
+            <label for="password2">Confirmation Password</label>
+            <input id="password2" type="password" class="form-control mb-3" placeholder="Please Re-enter your Password">
+            <button type="submit" class="btn btn-primary btn-rounded"><i class="bi bi-door-closed-fill mr-3"></i>Sign Up!</button>
     </form>
     <p class="text-white mt-3"> Already have an account?</p>
     <a class="btn btn-success rounded mb-5" href="{% url 'login' %}"> <i class="bi bi-door-closed-fill"></i> Login</a>
