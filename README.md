@@ -8,7 +8,8 @@
 2. Please confirm that you have python installed, by running the command `python --version`.
 If not installed, please do so by downloading it on https://www.python.org/downloads/.
 
-3. In your preferred terminal, make sure the django library is installed by running the commend `pip install django`
+3. In your preferred terminal, make sure the django library is installed by running the command:
+`pip install django`
 
 4. Within the *settings.py* in `src/src/settings.py`, please make the following modifications:
 Please delete the line: load_dotenv(find_dotenv())
