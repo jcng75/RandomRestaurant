@@ -19,7 +19,7 @@
         <div class="float-right text-white">
             <div class="dropdown">
                 <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown">
-                    <i class="bi bi-person"></i> <span id="usernameNav">username</span>
+                    <i class="bi bi-person"></i> <span id="usernameNav">{{ user.first_name  }}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'logout' %}">

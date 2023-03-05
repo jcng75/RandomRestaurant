@@ -5,10 +5,16 @@
 {% endblock %}
 
 {% block body %}
-{% include "nav.html" %}
-<div class="container-fluid bg-dark ">
-    <h1 class="text-white"> Welcome to the Homepage!</h1>
-</div>
+{% if user.is_authenticated %}
+    {% include "nav.html" %}
+    <div class="container-fluid bg-dark ">
+        <h1 class="text-white"> Welcome to the Homepage!</h1>
+    </div>
+{% else %}
+    <div class="alert alert-danger">
+        You are not logged in, please <a class="alert-link" href="{% url 'login' %}">login</a>.
+    </div>
+{% endif %}
 
 
 {% endblock %}
