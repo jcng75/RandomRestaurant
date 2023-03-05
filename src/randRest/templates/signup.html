@@ -7,17 +7,24 @@
 {% block body %}
 
 {% if messages %}
-<div class="panel-collapse collapse">
-    <ul class="list-group">
-        {% for message in messages %}
-        <li class="list-group-item">
-            {{ message }}
-        </li>
-        {% endfor %}
+<div class="container-fluid bg-dark mb-0">
+    {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        {{ message }} 
+        Please goto the <a href="{% url 'login' %}" class="alert-link">login page</a> next.
+    </div>
+    {% endif %}
+    {% endfor %}
     </ul>
 </div>
 {% endif %}
-<div class="container-xxl bg-dark mb-10">
+<div class="container-fluid bg-dark mb-10">
     <h1 class="text-white text-center"><i class="bi bi-pencil-square p-1"></i>Signup Page</h1>
     <form class="text-white" method="post">
             {% csrf_token %}
