@@ -2,9 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+import re
 
 # Create your views here.
 
+def checkEmail(email):
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+    if re.fullmatch(regex, email):
+        return False
+    return True
+    
 def index(request):
     return render(request, "home.html")
 
@@ -14,11 +21,9 @@ def loginView(request):
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            print("you go here")
             login(request, user)
             return redirect('/home')
         else:
-            print("you here")
             messages.add_message(request, messages.ERROR, "Invalid Credentials")
             return render(request, "login.html")
     return render(request, "login.html")
@@ -40,6 +45,10 @@ def signup(request):
             errors += 1
         if User.objects.filter(email=email).exists():
             messages.add_message(request, messages.ERROR, "Email is taken")
+            errors += 1
+        print(checkEmail(email))
+        if checkEmail(email):
+            messages.add_message(request, messages.ERROR, "Email is not valid!")
             errors += 1
         if password1 != password2:
             messages.add_message(request, messages.ERROR, "Passwords do not match")
