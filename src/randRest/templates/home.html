@@ -1,15 +1,100 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Homepage</title>
+    <title>Home</title>
 {% endblock %}
 
 {% block body %}
 {% if user.is_authenticated %}
     {% include "nav.html" %}
-    <div class="container-fluid bg-dark ">
-        <h1 class="text-white"> Welcome to the Homepage!</h1>
+    {% if messages %}
+    <div class="container-fluid bg-dark mb-0">
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
+    {% endif %}
+    <div class="container-fluid bg-dark ">
+        <h1 class="text-white"> Welcome back {{ user.first_name }}!</h1>
+    </div>
+
+    <div class="container bg-white border border-dark scrollable overflow-auto">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row text-center">
+                    <div class="col-sm-9">
+                        <h1 class="text-info p-5">McDonald's 
+                            (<i class="bi bi-star-fill"></i> 3.5)
+                        </h1>
+                    </div>
+                </div>
+                <dl class="row">
+                    <dt class="col-sm-3">Address</dt>
+                    <dd class="col-sm-9">
+                        <p>
+                            340 Peninsula Blvd, Hempstead, NY 11550
+                        </p>
+                        <p>
+                            Located <b>10.2</b> miles away from you
+                        </p>
+                    </dd>
+                    
+                    <dt class="col-sm-3">Restaurant Type</dt>
+                    <dd class="col-sm-9">
+                        <p>Fast Food <b>($)</b></p>
+                    </dd>
+                    
+                    <dt class="col-sm-3">Phone Number</dt>
+                    <dd class="col-sm-9">516-517-2018</dd>
+
+                    <dt class="col-sm-3">Working Hours</dt>
+                    <dd class="col-sm-9">6:00AM - 12:00AM</dd>
+
+                    <form method="post">
+                        <input type="submit" name="reject" class="btn btn-rounded btn-danger" style="width:300px;" value="X">
+                        <input type="submit" name="add" class="btn btn-rounded btn-success" style="width:300px;" value="✓">
+                    </form>
+                </dl>
+
+            </div>
+            <div class="col-md-3 text-center mr-5 mt-5">
+                <div class="row">
+                    <img class="img-thumbnail rounded border-dark" style="width:auto; height:auto; max-height:500px; max-width: 250px;" alt="mcdonalds" src="https://www.eatthis.com/wp-content/uploads/sites/4/2021/06/mcdonalds-2.jpg?quality=82&strip=1">
+                </div>
+                <div class="row pt-5">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary"  style="width:250px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    ?
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 {% else %}
     <div class="alert alert-danger">
         You are not logged in, please <a class="alert-link" href="{% url 'login' %}">login</a>.

@@ -11,6 +11,20 @@ def checkEmail(email):
     if re.fullmatch(regex, email):
         return False
     return True
+
+def checkPassword(password):
+    # Check for password length, uppercase character, lowercase, number, and special character
+    lengthError = len(password) < 8
+    digitError = re.search(r"\d", password) is None
+    uppercaseError = re.search(r"[A-Z]", password) is None
+    lowercaseError = re.search(r"[a-z]", password) is None
+    symbolError = re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None
+    
+    # If any errors, return false
+    if lengthError or digitError or uppercaseError or lowercaseError or symbolError:
+        return False
+    else:
+        return True
     
 def index(request):
     return render(request, "home.html")
@@ -46,14 +60,16 @@ def signup(request):
         if User.objects.filter(email=email).exists():
             messages.add_message(request, messages.ERROR, "Email is taken")
             errors += 1
-        print(checkEmail(email))
         if checkEmail(email):
             messages.add_message(request, messages.ERROR, "Email is not valid!")
             errors += 1
         if password1 != password2:
             messages.add_message(request, messages.ERROR, "Passwords do not match")
             errors += 1
-        
+        if not checkPassword(password1):
+            messages.add_message(request, messages.ERROR, "Password does not meet standards")
+            errors += 1
+ 
         if errors > 0:
             return render(request, "signup.html")
         
