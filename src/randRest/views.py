@@ -27,7 +27,7 @@ def checkPassword(password):
         return True
     
 def index(request):
-    return render(request, "home.html")
+    return redirect('/home')
 
 def loginView(request):
     if request.method == "POST":
@@ -81,6 +81,13 @@ def signup(request):
     return render(request, "signup.html")    
 
 def home(request):
+    if request.method == "POST":
+        if "reject" in request.POST:
+            print("You rejected that restaurant")
+        else:
+            print("You liked that restaurant")
+            messages.add_message(request, messages.SUCCESS, "A new restaurant has been added to your list!")
+        return render(request, "home.html")
     return render(request, "home.html")
 
 def saved(request):
