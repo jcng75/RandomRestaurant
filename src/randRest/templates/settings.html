@@ -7,13 +7,23 @@
 {% block body %}
 {% include "nav.html" %}
 <div class="container-fluid bg-dark text-white p-2">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="row no-gutter">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
     <h1>Settings</h1>
     <div class="border border-white" style="margin-bottom: 50px;">
         <h1>Filters</h1>
         <label for="distance">Distance</label>
-        <input id="distance" type="text"/>
+        <input id="distance" type="number"/>
         <label for="rating">Rating</label>
-        <input id="rating" type="text"/>
+        <input id="rating" type="number"/>
         <label for="pricing">Pricing</label>
         <select id="pricing">
             <option value="$">$</option>

@@ -94,6 +94,9 @@ def saved(request):
     return render(request, "saved.html")
 
 def settings(request):
+    if request.method == "POST":
+        messages.add_message(request, messages.SUCCESS, "Changes have been saved.")
+        return render(request, "settings.html")
     return render(request, "settings.html")
 
 def logoutView(request):
