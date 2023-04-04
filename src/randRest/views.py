@@ -102,3 +102,6 @@ def settings(request):
 def logoutView(request):
     logout(request)
     return render(request, "logout.html")
+
+def profile(request):
+    return render(request, "profile.html")

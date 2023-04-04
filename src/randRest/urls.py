@@ -10,6 +10,7 @@ urlpatterns = [
     path("settings", views.settings, name="settings"),
     path("saved", views.saved, name="saved"),
     path("logout", views.logoutView, name="logout"),
+    path("profile", views.profile, name="profile"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
