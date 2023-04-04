@@ -6,7 +6,7 @@
 
 {% block body %}
 {% include "nav.html" %}
-<div class="container-fluid bg-dark text-white">
+<div class="container-fluid bg-dark text-white p-2">
     <h1>Settings</h1>
     <div class="border border-white" style="margin-bottom: 50px;">
         <h1>Filters</h1>
@@ -35,9 +35,13 @@
             <option value="low2high">Lowest To Highest</option>
         </select>
     </div>
-    <div class="border border-info">
-
+    <div class="row">
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" name="save" class="btn btn-success btn-rounded" value="Save Changes">
+            <input type="button" name="cancel" class="btn btn-danger btn-rounded" value="Cancel" onclick=location.reload()>
+        </form>
     </div>
-
+</div>
 </div>
 {% endblock %}
