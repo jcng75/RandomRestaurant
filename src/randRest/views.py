@@ -81,6 +81,7 @@ def signup(request):
     return render(request, "signup.html")    
 
 def home(request):
+    # If the user clicks a button, provide a corresponding action depending on what is clicked
     if request.method == "POST":
         if "reject" in request.POST:
             print("You rejected that restaurant")

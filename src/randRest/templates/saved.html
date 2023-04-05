@@ -6,5 +6,50 @@
 
 {% block body %}
 {% include "nav.html" %}
-<h1>saved restaurants</h1>
+<div class="container-fluid bg-dark text-white pb-3">
+    <h1>Saved Restaurants</h1>
+    <div class="border border-white p-3">
+        <div class="row text-center">
+        <div class="col-sm-3">Restaurant Name</div>
+        <div class="col-sm-3">Address</div>
+        <div class="col-sm-3">Delete</div>
+        <div class="col-sm-3">View More</div>
+        </div>
+    </div>
+    <div class="border border-white p-3">
+        <div class="row text-center">
+        <div class="col-sm-3">McDonald's</div>
+        <div class="col-sm-3">340 Peninsula Blvd, Hempstead, NY 11550</div>
+        <div class="col-sm-3">
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-md btn-danger btn-rounded" name="12321321" value="X">
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-md btn-primary"  style="width:250px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ?
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-dark">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
