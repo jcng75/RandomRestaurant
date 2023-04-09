@@ -27,6 +27,11 @@ def checkPassword(password):
         return True
     
 def index(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            return redirect("/home")
+        else:
+            return redirect("/login")
     return render(request, "index.html")
 
 def loginView(request):

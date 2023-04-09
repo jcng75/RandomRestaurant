@@ -25,7 +25,8 @@
         <img class="img-fluid img-thumbnail" src="{% static 'images/icon.jpg' %}" style="float:right; width:25%;" alt="logo">
         <h1>RandRestaurant</h1>
         <footer>Find your new favorite spot today!</footer>
-        <form class="m-2">
+        <form class="m-2" method="post">
+            {% csrf_token %}
             <input type="submit" class="btn btn-rounded btn-primary text-white" value="Click Here To Get Started">
         </form>
     </div>
