@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Welcome</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
+    body{
+        background-color: lightpink;
+        background-image: url('{% static "images/landingPage.jpg" %}');
+        font-family: Quicksand;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="d-flex aligns-items-center justify-content-center">
+    <div class="mt-5 p-5 text-center rounded border border-dark" style="background-color: white;">
+        <img class="img-fluid img-thumbnail" src="{% static 'images/icon.jpg' %}" style="float:right; width:25%;" alt="logo">
+        <h1>RandRestaurant</h1>
+        <footer>Find your new favorite spot today!</footer>
+        <form class="m-2">
+            <input type="submit" class="btn btn-rounded btn-primary text-white" value="Click Here To Get Started">
+        </form>
+    </div>
+</div>
+{% endblock %}

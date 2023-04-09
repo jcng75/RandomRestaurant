@@ -27,7 +27,7 @@ def checkPassword(password):
         return True
     
 def index(request):
-    return redirect('/home')
+    return render(request, "index.html")
 
 def loginView(request):
     if request.method == "POST":
@@ -36,7 +36,7 @@ def loginView(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/home')
+            return redirect("/home")
         else:
             messages.add_message(request, messages.ERROR, "Invalid Credentials")
             return render(request, "login.html")
