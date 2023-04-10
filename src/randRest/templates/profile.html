@@ -5,8 +5,37 @@
 {% block body %}
     {% if user.is_authenticated %}
         {% include "nav.html" %}
-        <p>Profile page</p>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="row no-gutter">
+                <div class="alert alert-{{ message.tags }} alert-dismissible">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <div class="container-lg bg-white mt-5 rounded p-3">
+            <h1>Hey {{ user.first_name }}!</h1>
+            <p>
+                Current Username: {{ user.username }}
+                <br>
+                Current Email: {{ user.email }}
+            </p>
+            <form class="form-control p-3" method="post">
+                <label for="currPass">Current Password</label>
+                <input type="password" class="form-control" name="currPass">
+                <label for="newPass">New Password</label>
+                <input type="password" class="form-control" name="newPass">
+                <label for="newPass2">Re-enter New Password</label>
+                <input type="password" class="form-control" name="newPass2">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-rounded btn-primary mt-2" value="Update Password">
+            </form>
+        </div>
     {% else %}
-        <p>Rip</p>
+        <div class="alert alert-danger">
+            You are not logged in, please <a class="alert-link" href="{% url 'login' %}">login</a>.
+        </div>
     {% endif %}
 {% endblock %}

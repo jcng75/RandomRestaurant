@@ -110,4 +110,21 @@ def logoutView(request):
     return render(request, "logout.html")
 
 def profile(request):
+    if request.method == "POST":
+        errors = 0
+        if not request.user.check_password(request.POST['currPass']):
+            messages.add_message(request, messages.WARNING, "Incorrect Password")
+            errors += 1
+        newPass = request.POST['newPass']
+        newPass2 = request.POST['newPass2']
+        if newPass != newPass2:
+            messages.add_message(request, messages.WARNING, "Passwords Do Not Match")
+            errors += 1
+        if errors > 0:
+            return render(request, "profile.html")
+        currentUser = User.objects.get(id = request.user.id)
+        currentUser.set_password(newPass)
+        currentUser.save()
+        messages.add_message(request, messages.INFO, "Password has been changed.")
+
     return render(request, "profile.html")
