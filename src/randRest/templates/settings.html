@@ -18,7 +18,7 @@
         {% endfor %}
     {% endif %}
     <h1>Settings</h1>
-    <div class="border border-white" style="margin-bottom: 50px;">
+    <div class="border border-white p-3" style="margin-bottom: 50px;">
         <h1>Filters</h1>
         <label for="distance">Distance</label>
         <input id="distance" type="number"/>
@@ -32,7 +32,7 @@
             <option value="$$$">$$$</option>
         </select>
     </div>
-    <div class="border border-white" style="margin-bottom: 50px;">
+    <div class="border border-white p-3" style="margin-bottom: 50px;">
         <h1>Sort Saved Restaurants</h1>
         <label for="type">Type</label>
         <select id="type">
@@ -47,11 +47,15 @@
         </select>
     </div>
     <div class="row">
-        <form method="post">
-            {% csrf_token %}
-            <input type="submit" name="save" class="btn btn-success btn-rounded" value="Save Changes">
-            <input type="button" name="cancel" class="btn btn-danger btn-rounded" value="Cancel" onclick=location.reload()>
-        </form>
+        <div class="col-md-2 ml-2">
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" name="save" class="btn btn-success btn-rounded ml-2" value="Save Changes">
+            </form>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'home' %}"><button class="btn btn-danger btn-rounded ml-5" style="width:150px;">Cancel</button></a>
+        </div>
     </div>
 </div>
 </div>

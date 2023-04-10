@@ -23,13 +23,13 @@
         <h1 class="text-white"> Welcome back {{ user.first_name }}!</h1>
     </div>
     
-    <div class="container bg-white border border-dark scrollable overflow-auto">
+    <div class="container bg-white border border-dark scrollable overflow-auto p-5">
         <div class="row">
             <div class="col-md-9">
                 <div class="row text-center">
                     <div class="col-sm-9">
-                        <h1 class="text-info p-5">McDonald's 
-                            (<i class="bi bi-star-fill"></i> 3.5)
+                        <h1 class="text-dark p-5">McDonald's 
+                            (<i class="bi bi-star-fill" style="color: yellow;"></i> 3.5)
                         </h1>
                     </div>
                 </div>
@@ -40,13 +40,13 @@
                             340 Peninsula Blvd, Hempstead, NY 11550
                         </p>
                         <p>
-                            Located <b>10.2</b> miles away from you
+                            Located <b class="text-primary">10.2</b> miles away from you
                         </p>
                     </dd>
                     
                     <dt class="col-sm-3">Restaurant Type</dt>
                     <dd class="col-sm-9">
-                        <p>Fast Food <b>($)</b></p>
+                        <p>Fast Food <b class="text-success">($)</b></p>
                     </dd>
                     
                     <dt class="col-sm-3">Phone Number</dt>
@@ -63,39 +63,9 @@
                 </dl>
 
             </div>
-            <div class="col-md-3 text-center mr-5 mt-5">
-                <div class="row">
-                    <img class="img-thumbnail rounded border-dark" style="width:auto; height:auto; max-height:500px; max-width: 250px;" alt="mcdonalds" src="https://www.eatthis.com/wp-content/uploads/sites/4/2021/06/mcdonalds-2.jpg?quality=82&strip=1">
-                </div>
-
-                <div class="row">
-                    <a class="link-offset-2 link-opacity-100-hover" href="https://www.mcdonalds.com">View Website</a>
-                </div>
-
-                <div class="row pt-5">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary"  style="width:250px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    ?
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-3">
+                <img class="img-sm img-thumbnail rounded border-dark mt-2" style="width:auto; height:auto; float:right; max-width: 500px;" alt="mcdonalds" src="https://www.eatthis.com/wp-content/uploads/sites/4/2021/06/mcdonalds-2.jpg?quality=82&strip=1">
+                <a class="link-offset-2 link-opacity-100-hover" href="https://www.mcdonalds.com">View Website</a>
             </div>
         </div>
     </div>
