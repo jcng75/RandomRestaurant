@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from geopy import Nominatim
 import re
 
 # Create your views here.
@@ -100,6 +101,11 @@ def saved(request):
     return render(request, "saved.html")
 
 def settings(request):
+    
+    locator = Nominatim(user_agent="myGeocoder")
+    location = locator.geocode("Champ de Mars, Paris, France")
+    print("Latitude = {}, Longitude = {}".format(location.latitude, location.longitude))
+
     if request.method == "POST":
         messages.add_message(request, messages.SUCCESS, "Changes have been saved.")
         return render(request, "settings.html")
