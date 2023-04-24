@@ -18,45 +18,43 @@
         {% endfor %}
     {% endif %}
     <h1>Settings</h1>
-    <div class="border border-white p-3" style="margin-bottom: 50px;">
-        <h1>Filters</h1>
-        <label for="distance">Distance</label>
-        <input id="distance" type="number"/>
-        <!-- <input type="range" id="distance"> -->
-        <label for="rating">Rating</label>
-        <input id="rating" type="number"/>
-        <label for="pricing">Pricing</label>
-        <select id="pricing">
-            <option value="$">$</option>
-            <option value="$$">$$</option>
-            <option value="$$$">$$$</option>
-        </select>
-    </div>
-    <div class="border border-white p-3" style="margin-bottom: 50px;">
-        <h1>Sort Saved Restaurants</h1>
-        <label for="type">Type</label>
-        <select id="type">
-            <option value="alpha">Alphabetical Order</option>
-            <option value="rating">Rating</option>
-            <option value="pricing">Pricing</option>
-        </select>
-        <label for="order">Order</label>
-        <select id="order">
-            <option value="high2low">Highest To Lowest</option>
-            <option value="low2high">Lowest To Highest</option>
-        </select>
-    </div>
-    <div class="row">
-        <div class="col-md-2 ml-2">
-            <form method="post">
-                {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="border border-white p-3" style="margin-bottom: 50px;">
+            <h1>Filters</h1>
+            <label for="distance">Distance</label>
+            <input id="distance" name="distance" type="number"/>
+            <label for="rating">Rating</label>
+            <input id="rating" name="rating" type="number"/>
+            <label for="pricing">Pricing</label>
+            <select id="pricing" name="pricing">
+                <option value="$">$</option>
+                <option value="$$">$$</option>
+                <option value="$$$">$$$</option>
+            </select>
+        </div>
+        <div class="border border-white p-3" style="margin-bottom: 50px;">
+            <h1>Sort Saved Restaurants</h1>
+            <label for="type">Type</label>
+            <select id="type" name="type">
+                <option value="alpha">Alphabetical Order</option>
+                <option value="rating">Rating</option>
+                <option value="pricing">Pricing</option>
+            </select>
+            <label for="order">Order</label>
+            <select id="order" name="order">
+                <option value="high2low">Highest To Lowest</option>
+                <option value="low2high">Lowest To Highest</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-md-2 ml-2">
                 <input type="submit" name="save" class="btn btn-success btn-rounded ml-2" value="Save Changes">
-            </form>
+            </div>
+            <div class="col-md-2">
+                <a href="{% url 'home' %}"><button class="btn btn-danger btn-rounded ml-5" style="width:150px;">Cancel</button></a>
+            </div>
         </div>
-        <div class="col-md-2">
-            <a href="{% url 'home' %}"><button class="btn btn-danger btn-rounded ml-5" style="width:150px;">Cancel</button></a>
-        </div>
-    </div>
-</div>
+    </form>
 </div>
 {% endblock %}

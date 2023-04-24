@@ -21,7 +21,19 @@
                 Current Username: {{ user.username }}
                 <br>
                 Current Email: {{ user.email }}
+                <br>
+                Set Address: {{ user.profile.address }}
+                <br>
+                Latitude: {{ user.profile.latitude }}
+                <br>
+                Longitude: {{ user.profile.longitude }}
             </p>
+            <form class="form-control p-3 mt-2" method="post">
+                <label for="currPass">Address</label>
+                <input type="text" class="form-control" name="address">
+                {% csrf_token %}
+                <input type="submit" name="address" class="btn btn-rounded btn-primary mt-2" value="Update Address">
+            </form>
             <form class="form-control p-3" method="post">
                 <label for="currPass">Current Password</label>
                 <input type="password" class="form-control" name="currPass">
@@ -30,7 +42,7 @@
                 <label for="newPass2">Re-enter New Password</label>
                 <input type="password" class="form-control" name="newPass2">
                 {% csrf_token %}
-                <input type="submit" class="btn btn-rounded btn-primary mt-2" value="Update Password">
+                <input type="submit" name="password" class="btn btn-rounded btn-primary mt-2" value="Update Password">
             </form>
         </div>
     {% else %}
