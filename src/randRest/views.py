@@ -102,11 +102,6 @@ def saved(request):
     return render(request, "saved.html")
 
 def settings(request):
-    
-    # locator = Nominatim(user_agent="myGeocoder")
-    # location = locator.geocode("New York")
-    # print("Latitude = {}, Longitude = {}".format(location.latitude, location.longitude))
-
     if request.method == "POST":
         print(request.POST)
         messages.add_message(request, messages.SUCCESS, "Changes have been saved.")
@@ -120,19 +115,33 @@ def logoutView(request):
 def profile(request):
     if request.method == "POST":
         errors = 0
-        if not request.user.check_password(request.POST['currPass']):
-            messages.add_message(request, messages.WARNING, "Incorrect Password")
-            errors += 1
-        newPass = request.POST['newPass']
-        newPass2 = request.POST['newPass2']
-        if newPass != newPass2:
-            messages.add_message(request, messages.WARNING, "Passwords Do Not Match")
-            errors += 1
-        if errors > 0:
-            return render(request, "profile.html")
-        currentUser = User.objects.get(id = request.user.id)
-        currentUser.set_password(newPass)
-        currentUser.save()
-        messages.add_message(request, messages.INFO, "Password has been changed.")
+        if "password" in request.POST:
+            print("here")
+            if not request.user.check_password(request.POST['currPass']):
+                messages.add_message(request, messages.WARNING, "Incorrect Password")
+                errors += 1
+            newPass = request.POST['newPass']
+            newPass2 = request.POST['newPass2']
+            if newPass != newPass2:
+                messages.add_message(request, messages.WARNING, "Passwords Do Not Match")
+                errors += 1
+            if errors > 0:
+                return render(request, "profile.html")
+            currentUser = User.objects.get(id = request.user.id)
+            currentUser.set_password(newPass)
+            currentUser.save()
+            messages.add_message(request, messages.INFO, "Password has been changed.")
+        else:
+            address = request.POST['address']
+            try:
+                locator = Nominatim(user_agent="randRest", timeout=5)
+                location = locator.geocode(address)    
+                currentProfile = Profile.objects.filter(pk=request.user.id)
+                currentProfile.update(latitude=location.latitude, longitude=location.longitude, address=address)
+                for item in currentProfile:
+                    item.save()
+                messages.add_message(request, messages.INFO, "Address has been updated.")
+            except Exception as e:
+                messages.add_message(request, messages.ERROR, "Unable to update address...")
 
     return render(request, "profile.html")
