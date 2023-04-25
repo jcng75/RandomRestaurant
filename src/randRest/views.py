@@ -76,12 +76,22 @@ def signup(request):
         if not checkPassword(password1):
             messages.add_message(request, messages.ERROR, "Password does not meet standards")
             errors += 1
- 
+        address = request.POST['address']
+        try:
+            locator = Nominatim(user_agent="randRest", timeout=5)
+            location = locator.geocode(address)    
+        except Exception as e:
+            messages.add_message(request, messages.ERROR, "Invalid address") 
+
         if errors > 0:
             return render(request, "signup.html")
         
+        latitude = location.latitude
+        longitude = location.longitude        
         user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name=last_name)
         user.save()
+        profile = Profile.objects.create(user=user, latitude=latitude, longitude=longitude, address=address)
+        profile.save()
         print('user created!')
         messages.add_message(request, messages.SUCCESS, "Account successfully created!")
         return render(request, "signup.html")
@@ -143,5 +153,4 @@ def profile(request):
                 messages.add_message(request, messages.INFO, "Address has been updated.")
             except Exception as e:
                 messages.add_message(request, messages.ERROR, "Unable to update address...")
-
     return render(request, "profile.html")
