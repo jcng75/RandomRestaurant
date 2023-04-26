@@ -5,16 +5,7 @@
 {% block body %}
     {% if user.is_authenticated %}
         {% include "nav.html" %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="row no-gutter">
-                <div class="alert alert-{{ message.tags }} alert-dismissible">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    {{ message }}
-                </div>
-            </div>
-            {% endfor %}
-        {% endif %}
+        {% include "messages.html" %}
         <div class="container-lg bg-white mt-5 rounded p-3">
             <h1>Hey {{ user.first_name }}!</h1>
             <p>

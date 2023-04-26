@@ -9,20 +9,9 @@
     {% include "nav.html" %}
     
     <div class="container-fluid bg-dark">
-        {% if messages %}
-            {% for message in messages %}
-            <div class="row no-gutter">
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    {{ message }}
-                    View your restaurants <a class="link-opacity-100-hover" href="{% url 'saved' %}">here</a>
-                </div>
-            </div>
-            {% endfor %}
-        {% endif %}
+        {% include "messages.html" %} 
         <h1 class="text-white"> Welcome back {{ user.first_name }}!</h1>
     </div>
-    
     <div class="container bg-white border border-dark scrollable overflow-auto p-5">
         <div class="row">
             <div class="col-md-9">

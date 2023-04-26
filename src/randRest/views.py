@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 from geopy import Nominatim
 from .models import Profile
 import re
@@ -104,7 +105,7 @@ def home(request):
             print("You rejected that restaurant")
         else:
             print("You liked that restaurant")
-            messages.add_message(request, messages.SUCCESS, "A new restaurant has been added to your list!")
+            messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="{% url "saved" %}">here</a>'))
         return render(request, "home.html")
     return render(request, "home.html")
 
@@ -129,7 +130,7 @@ def profile(request):
             print("here")
             if not request.user.check_password(request.POST['currPass']):
                 messages.add_message(request, messages.WARNING, "Incorrect Password")
-                errors += 1
+                return render(request, "profile.html")
             newPass = request.POST['newPass']
             newPass2 = request.POST['newPass2']
             if newPass != newPass2:
