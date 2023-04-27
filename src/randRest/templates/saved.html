@@ -8,6 +8,7 @@
 {% include "nav.html" %}
 <div class="container-fluid bg-dark text-white pb-3">
     <h1>Saved Restaurants</h1>
+    {% if user.profile.restaurants.all %}
     <div class="border border-white p-3">
         <div class="row text-center">
         <div class="col-sm-3">
@@ -28,61 +29,68 @@
         </div>
         </div>
     </div>
-    <div class="border border-white p-3">
-        <div class="row text-center">
-        <div class="col-sm-3">McDonald's</div>
-        <div class="col-sm-3">340 Peninsula Blvd, Hempstead, NY 11550</div>
-        <div class="col-sm-3">
-            <form method="post">
-                {% csrf_token %}
-                <input type="submit" class="btn btn-md btn-danger btn-rounded" style="width:200px;" name="12321321" value="X">
-            </form>
-        </div>
-        <div class="col-sm-3">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-md btn-primary"  style="width:200px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-question-circle-fill"></i>  
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-dark" id="exampleModalLabel">McDonalds</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body text-dark">
-                                <dl class="row">
-                                    <dt class="col-sm-3">Rating</dt>
-                                    <dd class="col-sm-9">
-                                        <p>
-                                            <i class="bi bi-star-fill" style="color:yellow"></i> 3.5
-                                        </p>
-                                    </dd>
-                                    
-                                    <dt class="col-sm-3">Restaurant Type</dt>
-                                    <dd class="col-sm-9">
-                                        <p>Fast Food <b class="text-success">($)</b></p>
-                                    </dd>
-                                    
-                                    <dt class="col-sm-3">Phone Number</dt>
-                                    <dd class="col-sm-9">516-517-2018</dd>
+    {% for restaurant in user.profile.restaurants.all %}
+        <div class="border border-white p-3">
+            <div class="row text-center">
+                <div class="col-sm-3">{{ restaurant.name }}</div>
+                <div class="col-sm-3">{{ restaurant.address }}</div>
+                <div class="col-sm-3">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-md btn-danger btn-rounded" style="width:200px;" name="restaurant" value="X">
+                    </form>
+                </div>
+                <div class="col-sm-3">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-md btn-primary"  style="width:200px;" data-bs-toggle="modal" data-bs-target="#myModal{{ restaurant.name }}">
+                        <i class="bi bi-question-circle-fill"></i>  
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal{{ restaurant.name }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ restaurant.name }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-dark" id="exampleModalLabel{{ restaurant.name }}">{{ restaurant.name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-dark">
+                                        <dl class="row">
+                                            <dt class="col-sm-3">Rating</dt>
+                                            <dd class="col-sm-9">
+                                                <p>
+                                                    <i class="bi bi-star-fill" style="color:yellow"></i> 3.57
+                                                </p>
+                                            </dd>
 
-                                    <dt class="col-sm-3">Working Hours</dt>
-                                    <dd class="col-sm-9">6:00AM - 12:00AM</dd>
-                                    <dt>
-                                        <a class="link-offset-2 link-opacity-100-hover" href="https://www.mcdonalds.com">View Website</a>
-                                    </dt>
-                                </dl>
+                                            <dt class="col-sm-3">Restaurant Type</dt>
+                                            <dd class="col-sm-9">
+                                                <p> {{ restaurant.restaurant_type }} <b class="text-success">({{ restaurant.restaurant_price }})</b></p>
+                                            </dd>
+
+                                            <dt class="col-sm-3">Phone Number</dt>
+                                            <dd class="col-sm-9">{{ restaurant.phone_number }}</dd>
+
+                                            <dt class="col-sm-3">Working Hours</dt>
+                                            <dd class="col-sm-9">{{ restaurant.working_hours }}</dd>
+                                            <dt>
+                                                <a class="link-offset-2 link-opacity-100-hover" href="{{ restaurant.website }}">View Website</a>
+                                            </dt>
+                                        </dl>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    {% endfor %}
+    {% else %}
+    <div class="border border-white p-3">
+        No restaurants saved yet!
     </div>
+    {% endif %}
 </div>
 {% endblock %}

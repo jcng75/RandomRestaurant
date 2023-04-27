@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     phone_number = models.CharField(max_length=15)
     working_hours = models.CharField(max_length=25)
     restaurant_price = models.IntegerField()
+    restaurant_rating = models.FloatField(null=True)
     website = models.CharField(max_length=100, null=True)
 
 class Profile(models.Model):

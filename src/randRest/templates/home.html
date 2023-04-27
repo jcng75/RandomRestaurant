@@ -6,13 +6,15 @@
 
 {% block body %}
 {% if user.is_authenticated %}
-    {% include "nav.html" %}
-    
-    <div class="container-fluid bg-dark">
-        {% include "messages.html" %} 
-        <h1 class="text-white"> Welcome back {{ user.first_name }}!</h1>
-    </div>
-    <div class="container bg-white border border-dark scrollable overflow-auto p-5">
+{% include "nav.html" %}
+
+<div class="container-fluid bg-dark">
+    {% include "messages.html" %} 
+    <h1 class="text-white"> Welcome back {{ user.first_name }}!</h1>
+</div>
+<div class="container bg-white border border-dark scrollable overflow-auto p-5">
+    <form method="post">
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-9">
                 <div class="row text-center">
@@ -40,24 +42,22 @@
                     
                     <dt class="col-sm-3">Phone Number</dt>
                     <dd class="col-sm-9">516-517-2018</dd>
-
+                    
                     <dt class="col-sm-3">Working Hours</dt>
                     <dd class="col-sm-9">6:00AM - 12:00AM</dd>
-
-                    <form method="post">
-                        {% csrf_token %}
+                    
                         <input type="submit" name="add" class="btn btn-rounded btn-success" style="width:300px;" value="✓">
                         <input type="submit" name="reject" class="btn btn-rounded btn-danger" style="width:300px;" value="X">
-                    </form>
                 </dl>
-
+                
             </div>
             <div class="col-md-3">
                 <img class="img-sm img-thumbnail rounded border-dark mt-2" style="width:auto; height:auto; float:right; max-width: 500px;" alt="mcdonalds" src="https://www.eatthis.com/wp-content/uploads/sites/4/2021/06/mcdonalds-2.jpg?quality=82&strip=1">
                 <a class="link-offset-2 link-opacity-100-hover" href="https://www.mcdonalds.com">View Website</a>
             </div>
         </div>
-    </div>
+    </form>
+</div>
 
 </div>
 

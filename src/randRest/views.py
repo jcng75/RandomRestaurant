@@ -30,6 +30,8 @@ def checkPassword(password):
         return True
     
 def index(request):
+    # If the user is logged in, send them to the home page
+    # Otherwise, send them to the login page
     if request.method == "POST":
         if request.user.is_authenticated:
             return redirect("/home")
@@ -38,6 +40,8 @@ def index(request):
     return render(request, "index.html")
 
 def loginView(request):
+    # If the user enters valid login credentials, log them in to the home page
+    # Otherwise, send them an error message and leave them at login
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -51,6 +55,9 @@ def loginView(request):
     return render(request, "login.html")
 
 def signup(request):
+    # Run tests to see if credentials are valid
+    # If any of them are invalid, add an error message and cancel the signup
+    # Otherwise, create the user and their profile associated
     if request.method == "POST":
         errors = 0
         first_name = request.POST["firstName"]
@@ -83,7 +90,8 @@ def signup(request):
             location = locator.geocode(address)    
         except Exception as e:
             messages.add_message(request, messages.ERROR, "Invalid address") 
-
+            print(e)
+            
         if errors > 0:
             return render(request, "signup.html")
         
@@ -110,6 +118,10 @@ def home(request):
     return render(request, "home.html")
 
 def saved(request):
+    ## FIX THE RESTAURANT DISPLAY 
+    if request.method == "POST":
+        print("bleh")
+        return
     return render(request, "saved.html")
 
 def settings(request):
@@ -124,6 +136,9 @@ def logoutView(request):
     return render(request, "logout.html")
 
 def profile(request):
+    # Profile can update either the password or address
+    # When updating the password, make sure to check if original password was correct
+    # as well as if new passwords match
     if request.method == "POST":
         errors = 0
         if "password" in request.POST:
@@ -153,5 +168,6 @@ def profile(request):
                     item.save()
                 messages.add_message(request, messages.INFO, "Address has been updated.")
             except Exception as e:
+                print(e)
                 messages.add_message(request, messages.ERROR, "Unable to update address...")
     return render(request, "profile.html")
