@@ -31,6 +31,7 @@
     </div>
     {% for restaurant in user.profile.restaurants.all %}
         <div class="border border-white p-3">
+            {{ restaurant.id }}
             <div class="row text-center">
                 <div class="col-sm-3">{{ restaurant.name }}</div>
                 <div class="col-sm-3">{{ restaurant.address }}</div>
@@ -42,15 +43,15 @@
                 </div>
                 <div class="col-sm-3">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-md btn-primary"  style="width:200px;" data-bs-toggle="modal" data-bs-target="#myModal{{ restaurant.name }}">
-                        <i class="bi bi-question-circle-fill"></i>  
+                    <button type="button" class="btn btn-md btn-primary" style="width:200px;" data-bs-toggle="modal" data-bs-target="#myModal{{ restaurant.id }}">
+                        <i class="bi bi-question-circle-fill"></i>
                     </button>
                     <!-- Modal -->
-                    <div class="modal fade" id="myModal{{ restaurant.name }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ restaurant.name }}" aria-hidden="true">
+                    <div class="modal fade" id="myModal{{ restaurant.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ restaurant.id }}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title text-dark" id="exampleModalLabel{{ restaurant.name }}">{{ restaurant.name }}</h5>
+                                        <h5 class="modal-title text-dark" id="exampleModalLabel{{ restaurant.id }}">{{ restaurant.name }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-dark">
@@ -58,13 +59,23 @@
                                             <dt class="col-sm-3">Rating</dt>
                                             <dd class="col-sm-9">
                                                 <p>
-                                                    <i class="bi bi-star-fill" style="color:yellow"></i> 3.57
+                                                    <i class="bi bi-star-fill" style="color:yellow"></i> {{ restaurant.restaurant_rating }}
                                                 </p>
                                             </dd>
 
                                             <dt class="col-sm-3">Restaurant Type</dt>
                                             <dd class="col-sm-9">
-                                                <p> {{ restaurant.restaurant_type }} <b class="text-success">({{ restaurant.restaurant_price }})</b></p>
+                                                <p> {{ restaurant.restaurant_type }} <b class="text-success">(
+                                                    {% if restaurant.restaurant_price == 1 %}
+                                                        $
+                                                    {% elif restaurant.restaurant_price == 2 %}
+                                                        $$
+                                                    {% elif restaurant.restaurant_price == 3 %}
+                                                        $$$
+                                                    {% else %}
+                                                        it don't work
+                                                    {% endif %}
+                                                    )</b></p>
                                             </dd>
 
                                             <dt class="col-sm-3">Phone Number</dt>
