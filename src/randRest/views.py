@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from geopy import Nominatim
-from .models import Profile
+from .models import Profile, Restaurant
 import re
 
 # Create your views here.
@@ -113,12 +113,33 @@ def home(request):
             print("You rejected that restaurant")
         else:
             print("You liked that restaurant")
+            print(request.POST)
+            
+            # Get the current profile and extract POST request
+            currentProfile = Profile.objects.get(pk=request.user.id)
+            print(currentProfile)
+            print(request.user.id)
+            restName = request.POST["restaurant_name"]
+            restRating = request.POST["restaurant_rating"]
+            restType = request.POST["restaurant_type"]
+            restPrice = request.POST["restaurant_price"]
+            phoneNumber = request.POST["phone_number"]
+            workingHours = request.POST["working_hours"]
+            website = request.POST["website"]
+            address = request.POST["address"]
+
+            # Create new website and add it to the current profile
+            newRestaurant = Restaurant.objects.create(name=restName, address=address, restaurant_type=restType, phone_number=phoneNumber, working_hours=workingHours, restaurant_price=restPrice, restaurant_rating=restRating, website=website)
+            # currentProfile.restaurants.add(name=restName, address=address, restaurant_type=restType, phone_number=phoneNumber, working_hours=workingHours, restaurant_price=restPrice, restaurant_rating=restRating, website=website)
+            currentProfile.restaurants.add(newRestaurant)
+            currentProfile.save()
             messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="{% url "saved" %}">here</a>'))
+
         return render(request, "home.html")
     return render(request, "home.html")
 
 def saved(request):
-    ## FIX THE RESTAURANT DISPLAY 
+    # Implement delete object
     if request.method == "POST":
         print("bleh")
         return
