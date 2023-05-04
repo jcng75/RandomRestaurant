@@ -111,6 +111,8 @@ def home(request):
     if request.method == "POST":
         if "reject" in request.POST:
             print("You rejected that restaurant")
+            messages.add_message(request, messages.INFO, "New restaurant generated... is it to your liking?")
+
         else:
             print("You liked that restaurant")
             print(request.POST)
@@ -130,7 +132,6 @@ def home(request):
 
             # Create new website and add it to the current profile
             newRestaurant = Restaurant.objects.create(name=restName, address=address, restaurant_type=restType, phone_number=phoneNumber, working_hours=workingHours, restaurant_price=restPrice, restaurant_rating=restRating, website=website)
-            # currentProfile.restaurants.add(name=restName, address=address, restaurant_type=restType, phone_number=phoneNumber, working_hours=workingHours, restaurant_price=restPrice, restaurant_rating=restRating, website=website)
             currentProfile.restaurants.add(newRestaurant)
             currentProfile.save()
             messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="{% url "saved" %}">here</a>'))
@@ -139,10 +140,13 @@ def home(request):
     return render(request, "home.html")
 
 def saved(request):
-    # Implement delete object
+    # If the delete button is clicked, remove the restaurant from the current user's saved list
     if request.method == "POST":
-        print("bleh")
-        return
+        restaurantId = request.POST["restaurant_id"]
+        currentProfile = Profile.objects.get(pk=request.user.id)
+        currentProfile.restaurants.filter(id=restaurantId).delete()
+        currentProfile.save()
+        messages.add_message(request, messages.INFO, f"Restaurant of ID '{restaurantId}' has been deleted.")
     return render(request, "saved.html")
 
 def settings(request):

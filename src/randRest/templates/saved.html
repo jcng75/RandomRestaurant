@@ -7,6 +7,7 @@
 {% block body %}
 {% include "nav.html" %}
 <div class="container-fluid bg-dark text-white pb-3">
+    {% include "messages.html" %}
     <h1>Saved Restaurants</h1>
     {% if user.profile.restaurants.all %}
     <div class="border border-white p-3">
@@ -38,6 +39,7 @@
                 <div class="col-sm-3">
                     <form method="post">
                         {% csrf_token %}
+                        <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
                         <input type="submit" class="btn btn-md btn-danger btn-rounded" style="width:200px;" name="restaurant" value="X">
                     </form>
                 </div>
