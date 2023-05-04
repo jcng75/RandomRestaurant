@@ -112,7 +112,6 @@ def home(request):
         if "reject" in request.POST:
             print("You rejected that restaurant")
             messages.add_message(request, messages.INFO, "New restaurant generated... is it to your liking?")
-
         else:
             print("You liked that restaurant")
             print(request.POST)
