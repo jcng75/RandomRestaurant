@@ -32,7 +32,6 @@
     </div>
     {% for restaurant in user.profile.restaurants.all %}
         <div class="border border-white p-3">
-            {{ restaurant.id }}
             <div class="row text-center">
                 <div class="col-sm-3">{{ restaurant.name }}</div>
                 <div class="col-sm-3">{{ restaurant.address }}</div>
@@ -75,7 +74,7 @@
                                                     {% elif restaurant.restaurant_price == 3 %}
                                                         $$$
                                                     {% else %}
-                                                        it don't work
+                                                        Price N/A
                                                     {% endif %}
                                                     )</b></p>
                                             </dd>
@@ -86,7 +85,7 @@
                                             <dt class="col-sm-3">Working Hours</dt>
                                             <dd class="col-sm-9">{{ restaurant.working_hours }}</dd>
                                             <dt>
-                                                <a class="link-offset-2 link-opacity-100-hover" href="{{ restaurant.website }}">View Website</a>
+                                                <a class="link-offset-2 link-opacity-100-hover" href="{{ restaurant.website }}">View On Google Maps</a>
                                             </dt>
                                         </dl>
                                     </div>

@@ -33,35 +33,47 @@
                             <input type="hidden" name="address" value="{{ address }}">
                             {{ address }}
                         </p>
-                        <p>
-                            Located <b class="text-primary">10.2</b> miles away from you
-                        </p>
                     </dd>
                     
                     <dt class="col-sm-3">Restaurant Type</dt>
                     <dd class="col-sm-9">
                         <input type="hidden" name="restaurant_type" value="{{ restaurant_type }}">
-                        <input type="hidden" name="restaurant_price" value="1">
-                        <p>{{ restaurant_type }} <b class="text-success">($)</b></p>
+                        <input type="hidden" name="restaurant_price" value="{{ price_level }}">
+                        <p>{{ restaurant_type }} <b class="text-success">(
+                            {% if price_level == 1 %}
+                                $
+                            {% elif price_level == 2 %}
+                                $$
+                            {% elif price_level == 3 %}
+                                $$$
+                            {% else %}
+                                Price N/A
+                            {% endif %}
+                            )</b></p>
                     </dd>
                     
                     <dt class="col-sm-3">Phone Number</dt>
-                    <input type="hidden" name="phone_number" value="516-517-2018">
-                    <dd class="col-sm-9">516-517-2018</dd>
+                    <input type="hidden" name="phone_number" value="{{ phone_number }}">
+                    <dd class="col-sm-9">{{ phone_number }}</dd>
                     
-                    <dt class="col-sm-3">Working Hours</dt>
+                    <dt class="col-sm-3">Open Now?</dt>
                     <input type="hidden" name="working_hours" value="6:00AM - 12:00AM">
-                    <dd class="col-sm-9">6:00AM - 12:00AM</dd>
-                    
-                        <input type="submit" name="add" class="btn btn-rounded btn-success" style="width:300px;" value="✓">
-                        <input type="submit" name="reject" class="btn btn-rounded btn-danger" style="width:300px;" value="X">
+                    <dd class="col-sm-9">{{ open_now }}</dd>
+                    <nav class="nav mb-2 mt-2">
+                        {% if website != '?' %}
+                            <a class="nav-link" href="{{ website }}">View Website</a>
+                        {% endif %}
+                        <a class="nav-link" href="{{ googlewebsite }}">View On Google Maps</a>
+                    </nav>
+                    <input type="submit" name="add" class="btn btn-rounded btn-success" style="width:300px;" value="✓">
+                    <input type="submit" name="reject" class="btn btn-rounded btn-danger" style="width:300px;" value="X">
                 </dl>
                 
             </div>
             <div class="col-md-3">
-                <img class="img-sm img-thumbnail rounded border-dark mt-2" style="width:auto; height:auto; float:right; max-width: 500px;" alt="mcdonalds" src="https://www.eatthis.com/wp-content/uploads/sites/4/2021/06/mcdonalds-2.jpg?quality=82&strip=1">
-                <a class="link-offset-2 link-opacity-100-hover" href="https://www.mcdonalds.com">View Website</a>
-                <input type="hidden" name="website" value="https://www.mcdonalds.com">
+                <img class="img-sm img-thumbnail rounded border-dark mt-2" style="width:auto; height:auto; float:right; max-width: 500px;" alt="image" src="{{ image }}">
+                
+                <input type="hidden" name="website" value="{{ googlewebsite }}">
             </div>
         </div>
     </form>

@@ -9,6 +9,7 @@ from os import environ
 from googlemaps import Client
 from pprint import pprint
 from random import choice
+import requests
 import re
 
 # Create your views here.
@@ -135,9 +136,8 @@ def home(request):
             newRestaurant = Restaurant.objects.create(name=restName, address=address, restaurant_type=restType, phone_number=phoneNumber, working_hours=workingHours, restaurant_price=restPrice, restaurant_rating=restRating, website=website)
             currentProfile.restaurants.add(newRestaurant)
             currentProfile.save()
-            messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="{% url "saved" %}">here</a>'))
+            messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="saved">here</a>'))
 
-        return render(request, "home.html")
     API_KEY = environ["API_KEY"]
     currentProfile = Profile.objects.get(pk=request.user.id)
     map_client = Client(API_KEY)
@@ -147,15 +147,42 @@ def home(request):
         keyword="(restaurant) OR (food) OR (diner)", 
         radius=10000
     )
+    pprint(response)
     randRest = choice(response.get("results"))
+    try:
+        price_level = randRest["price_level"]
+    except:
+        price_level = "?"
+    try:
+        image = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+randRest["photos"][0]["photo_reference"]+"&key="+API_KEY
+    except:
+        image = "https://lordspalace.com/wp-content/uploads/2022/12/167492439-no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-comin.webp"
+    
+    randRestId = randRest["place_id"]
+    print(randRestId)
+    responseURL = ("https://maps.googleapis.com/maps/api/place/details/json?placeid=" + str(randRestId) + "&key=" + API_KEY)
+    detailedResponse = requests.get(responseURL)
+    
+    detailedResults = detailedResponse.json()["result"]
+    pprint(detailedResults)
+    try:
+        website = detailedResults["website"]
+    except:
+        website = "?"
+    
     restaurantResults = {
         "restaurant_name": randRest["name"],
-        "address": randRest["vicinity"],
+        "address": detailedResults["formatted_address"],
         "restaurant_rating": randRest["rating"],
-        # "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+randRest["photos"]["photo_reference"]+"&key="+API_KEY,
-        "restaurant_type": randRest["types"][0]
+        "image": image,
+        "restaurant_type": randRest["types"][0],
+        "price_level": price_level,
+        "phone_number": detailedResults["formatted_phone_number"],
+        "website": website,
+        "googlewebsite": detailedResults["url"],
+        "open_now": detailedResults["opening_hours"]["open_now"]
     }
-    print(restaurantResults)
+    # print(restaurantResults)
 
     return render(request, "home.html", context=restaurantResults)
 
@@ -166,7 +193,7 @@ def saved(request):
         currentProfile = Profile.objects.get(pk=request.user.id)
         currentProfile.restaurants.filter(id=restaurantId).delete()
         currentProfile.save()
-        messages.add_message(request, messages.INFO, f"Restaurant of ID '{restaurantId}' has been deleted.")
+        messages.add_message(request, messages.INFO, "Restaurant has been deleted.")
     return render(request, "saved.html")
 
 def settings(request):
