@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from geopy import Nominatim
 from .models import Profile, Restaurant
+from os import environ
+from googlemaps import Client
+from pprint import pprint
+from random import choice
 import re
 
 # Create your views here.
@@ -118,8 +122,6 @@ def home(request):
             
             # Get the current profile and extract POST request
             currentProfile = Profile.objects.get(pk=request.user.id)
-            print(currentProfile)
-            print(request.user.id)
             restName = request.POST["restaurant_name"]
             restRating = request.POST["restaurant_rating"]
             restType = request.POST["restaurant_type"]
@@ -136,7 +138,26 @@ def home(request):
             messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="{% url "saved" %}">here</a>'))
 
         return render(request, "home.html")
-    return render(request, "home.html")
+    API_KEY = environ["API_KEY"]
+    currentProfile = Profile.objects.get(pk=request.user.id)
+    map_client = Client(API_KEY)
+    location = (currentProfile.latitude, currentProfile.longitude)
+    response = map_client.places_nearby(
+        location=location,
+        keyword="(restaurant) OR (food) OR (diner)", 
+        radius=10000
+    )
+    randRest = choice(response.get("results"))
+    restaurantResults = {
+        "restaurant_name": randRest["name"],
+        "address": randRest["vicinity"],
+        "restaurant_rating": randRest["rating"],
+        # "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+randRest["photos"]["photo_reference"]+"&key="+API_KEY,
+        "restaurant_type": randRest["types"][0]
+    }
+    print(restaurantResults)
+
+    return render(request, "home.html", context=restaurantResults)
 
 def saved(request):
     # If the delete button is clicked, remove the restaurant from the current user's saved list
