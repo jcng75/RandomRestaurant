@@ -9,6 +9,20 @@
 <div class="container-fluid bg-dark text-white p-2">
     {% include "messages.html" %} 
     <h1>Settings</h1>
+    <p>
+       Current Settings 
+       Distance : {{ user.profile.distance }} <br>
+        Type: {{ user.profile.restaurant_type }} <br>
+        Price: 
+        {% if user.profile.max_price == 1 %}
+        $
+        {% elif user.profile.max_price == 2 %}
+        $$
+        {% elif user.profile.max_price == 3 %}
+        $$$
+        {% endif %}
+
+    </p>
     <form method="post" id="settingsform">
         {% csrf_token %}
         <div class="border border-white p-3" style="margin-bottom: 50px;">

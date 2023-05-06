@@ -205,7 +205,11 @@ def settings(request):
         if distance < 500:
             messages.add_message(request, messages.INFO, "Distance too small!, please specify a distance of at least 500!")
             return render(request, "settings.html")
-        print(request.POST)    
+        
+        maxPrice = int(request.POST["pricing"])
+        restType = request.POST["type"]
+        Profile.objects.filter(pk=request.user.id).update(max_price=maxPrice, distance=distance, restaurant_type=restType)
+        
         messages.add_message(request, messages.SUCCESS, "Changes have been saved.")
         return render(request, "settings.html")
     return render(request, "settings.html")
