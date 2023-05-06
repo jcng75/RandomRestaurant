@@ -19,4 +19,7 @@ class Profile(models.Model):
     longitude = models.FloatField(null=False)
     address = models.CharField(max_length=200)
     restaurants = models.ManyToManyField(Restaurant, blank=True)
+    max_price = models.IntegerField(default=2)
+    distance = models.IntegerField(default=500)
+    restaurant_type = models.CharField(max_length=20, default="Casual Dining")
 
