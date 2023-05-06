@@ -13,6 +13,12 @@
     <h1 class="text-white"> Welcome back {{ user.first_name }}!</h1>
 </div>
 <div class="container bg-white border border-dark scrollable overflow-auto p-5">
+    {% if error %}
+    <p>
+        There are no restaurants to satisfy your requirements...
+        Please view <a class="alert-link" href="{% url 'settings' %}">settings</a> to widen your searches.
+    </p>
+    {% else %}
     <form method="post">
         {% csrf_token %}
         <div class="row">
@@ -77,6 +83,7 @@
             </div>
         </div>
     </form>
+    {% endif %}
 </div>
 
 </div>

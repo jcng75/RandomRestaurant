@@ -119,8 +119,6 @@ def home(request):
             messages.add_message(request, messages.INFO, "New restaurant generated... is it to your liking?")
         else:
             print("You liked that restaurant")
-            print(request.POST)
-            
             # Get the current profile and extract POST request
             currentProfile = Profile.objects.get(pk=request.user.id)
             restName = request.POST["restaurant_name"]
@@ -143,16 +141,23 @@ def home(request):
     currentProfile = Profile.objects.get(pk=request.user.id)
     map_client = Client(API_KEY)
     location = (currentProfile.latitude, currentProfile.longitude)
-    response = map_client.places_nearby(
-        location=location,
-        keyword="(restaurant) OR (food) OR (diner)", 
-        radius=10000
-    )
-    randRest = choice(response.get("results"))
+    keyword = currentProfile.restaurant_type
+    distance = currentProfile.distance
+    try:
+        response = map_client.places_nearby(
+            location=location,
+            keyword=keyword, 
+            radius=distance
+        )
+        randRest = choice(response.get("results"))
+    except:
+        return render(request, "home.html", context={
+            "error": True
+        })
     try:
         price_level = randRest["price_level"]
     except:
-        price_level = "?"
+        price_level = "-1"
     try:
         image = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+randRest["photos"][0]["photo_reference"]+"&key="+API_KEY
     except:
@@ -169,15 +174,20 @@ def home(request):
     except:
         website = "?"
     
+    try:
+        phoneNumber = detailedResults["formatted_phone_number"]
+    except:
+        phoneNumber = "N/A"
+    
     restaurantResults = {
         "restaurant_name": randRest["name"],
         "address": detailedResults["formatted_address"],
         "restaurant_rating": randRest["rating"],
         "image": image,
-        "restaurant_type": randRest["types"][0],
+        "restaurant_type": keyword,
         "price_level": price_level,
-        "phone_number": detailedResults["formatted_phone_number"],
         "website": website,
+        "phone_number": phoneNumber,
         "googlewebsite": detailedResults["url"],
         "open_now": detailedResults["opening_hours"]["open_now"],
         "working_hours": detailedResults["opening_hours"]["weekday_text"]
@@ -225,7 +235,6 @@ def profile(request):
     if request.method == "POST":
         errors = 0
         if "password" in request.POST:
-            print("here")
             if not request.user.check_password(request.POST['currPass']):
                 messages.add_message(request, messages.WARNING, "Incorrect Password")
                 return render(request, "profile.html")
