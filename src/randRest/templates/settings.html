@@ -9,33 +9,29 @@
 <div class="container-fluid bg-dark text-white p-2">
     {% include "messages.html" %} 
     <h1>Settings</h1>
-    <form method="post">
+    <form method="post" id="settingsform">
         {% csrf_token %}
         <div class="border border-white p-3" style="margin-bottom: 50px;">
             <h1>Filters</h1>
             <label for="distance">Distance</label>
-            <input id="distance" name="distance" type="number"/>
-            <label for="rating">Rating</label>
-            <input id="rating" name="rating" type="number"/>
+            <input id="distance" name="distance" type="number" placeholder="1000"/>
+            <label for="type">Restaurant Type</label>
+            <select id="type" name="type" form="settingsform">
+                <option value="Casual Dining">Casual Dining</option>
+                <option value="Fine Dining">Fine Dining</option>
+                <option value="Diner">Diner</option>
+                <option value="Fast Food">Fast Food</option>
+                <option value="Bar">Bar</option>
+                <option value="Cafe">Cafe</option>
+                <option value="Food Truck">Food Truck</option>
+                <option value="Buffet">Buffet</option>
+                <option value="Bistro">Bistro</option>
+            </select>
             <label for="pricing">Pricing</label>
-            <select id="pricing" name="pricing">
-                <option value="$">$</option>
-                <option value="$$">$$</option>
-                <option value="$$$">$$$</option>
-            </select>
-        </div>
-        <div class="border border-white p-3" style="margin-bottom: 50px;">
-            <h1>Sort Saved Restaurants</h1>
-            <label for="type">Type</label>
-            <select id="type" name="type">
-                <option value="alpha">Alphabetical Order</option>
-                <option value="rating">Rating</option>
-                <option value="pricing">Pricing</option>
-            </select>
-            <label for="order">Order</label>
-            <select id="order" name="order">
-                <option value="high2low">Highest To Lowest</option>
-                <option value="low2high">Lowest To Highest</option>
+            <select id="pricing" name="pricing" form="settingsform">
+                <option value="1">$</option>
+                <option value="2">$$</option>
+                <option value="3">$$$</option>
             </select>
         </div>
         <div class="row">

@@ -57,7 +57,7 @@
                     <dd class="col-sm-9">{{ phone_number }}</dd>
                     
                     <dt class="col-sm-3">Open Now?</dt>
-                    <input type="hidden" name="working_hours" value="6:00AM - 12:00AM">
+                    <input type="hidden" name="working_hours" value="{{ working_hours }}">
                     <dd class="col-sm-9">{{ open_now }}</dd>
                     <nav class="nav mb-2 mt-2">
                         {% if website != '?' %}

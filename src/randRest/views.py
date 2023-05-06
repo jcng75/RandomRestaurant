@@ -138,6 +138,7 @@ def home(request):
             currentProfile.save()
             messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="saved">here</a>'))
 
+    # FIX RESPONSE AND HOURS
     API_KEY = environ["API_KEY"]
     currentProfile = Profile.objects.get(pk=request.user.id)
     map_client = Client(API_KEY)
@@ -147,7 +148,6 @@ def home(request):
         keyword="(restaurant) OR (food) OR (diner)", 
         radius=10000
     )
-    pprint(response)
     randRest = choice(response.get("results"))
     try:
         price_level = randRest["price_level"]
@@ -159,12 +159,11 @@ def home(request):
         image = "https://lordspalace.com/wp-content/uploads/2022/12/167492439-no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-comin.webp"
     
     randRestId = randRest["place_id"]
-    print(randRestId)
     responseURL = ("https://maps.googleapis.com/maps/api/place/details/json?placeid=" + str(randRestId) + "&key=" + API_KEY)
     detailedResponse = requests.get(responseURL)
     
     detailedResults = detailedResponse.json()["result"]
-    pprint(detailedResults)
+    # pprint(detailedResults)
     try:
         website = detailedResults["website"]
     except:
@@ -180,9 +179,9 @@ def home(request):
         "phone_number": detailedResults["formatted_phone_number"],
         "website": website,
         "googlewebsite": detailedResults["url"],
-        "open_now": detailedResults["opening_hours"]["open_now"]
+        "open_now": detailedResults["opening_hours"]["open_now"],
+        "working_hours": detailedResults["opening_hours"]["weekday_text"]
     }
-    # print(restaurantResults)
 
     return render(request, "home.html", context=restaurantResults)
 
@@ -198,7 +197,15 @@ def saved(request):
 
 def settings(request):
     if request.method == "POST":
-        print(request.POST)
+        try:
+            distance = int(request.POST["distance"]) 
+        except:
+            messages.add_message(request, messages.INFO, "Invalid distance!")
+            return render(request, "settings.html")
+        if distance < 500:
+            messages.add_message(request, messages.INFO, "Distance too small!, please specify a distance of at least 500!")
+            return render(request, "settings.html")
+        print(request.POST)    
         messages.add_message(request, messages.SUCCESS, "Changes have been saved.")
         return render(request, "settings.html")
     return render(request, "settings.html")
