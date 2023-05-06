@@ -136,64 +136,71 @@ def home(request):
             currentProfile.save()
             messages.add_message(request, messages.SUCCESS, mark_safe('A new restaurant has been added to your list! View your restaurants <a class="link-opacity-100-hover" href="saved">here</a>'))
 
-    # FIX RESPONSE AND HOURS
-    API_KEY = environ["API_KEY"]
-    currentProfile = Profile.objects.get(pk=request.user.id)
-    map_client = Client(API_KEY)
-    location = (currentProfile.latitude, currentProfile.longitude)
-    keyword = currentProfile.restaurant_type
-    distance = currentProfile.distance
-    try:
-        response = map_client.places_nearby(
-            location=location,
-            keyword=keyword, 
-            radius=distance
-        )
-        randRest = choice(response.get("results"))
-    except:
-        return render(request, "home.html", context={
-            "error": True
-        })
-    try:
-        price_level = randRest["price_level"]
-    except:
-        price_level = "-1"
-    try:
-        image = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+randRest["photos"][0]["photo_reference"]+"&key="+API_KEY
-    except:
-        image = "https://lordspalace.com/wp-content/uploads/2022/12/167492439-no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-comin.webp"
-    
-    randRestId = randRest["place_id"]
-    responseURL = ("https://maps.googleapis.com/maps/api/place/details/json?placeid=" + str(randRestId) + "&key=" + API_KEY)
-    detailedResponse = requests.get(responseURL)
-    
-    detailedResults = detailedResponse.json()["result"]
-    # pprint(detailedResults)
-    try:
-        website = detailedResults["website"]
-    except:
-        website = "?"
-    
-    try:
-        phoneNumber = detailedResults["formatted_phone_number"]
-    except:
-        phoneNumber = "N/A"
-    
-    restaurantResults = {
-        "restaurant_name": randRest["name"],
-        "address": detailedResults["formatted_address"],
-        "restaurant_rating": randRest["rating"],
-        "image": image,
-        "restaurant_type": keyword,
-        "price_level": price_level,
-        "website": website,
-        "phone_number": phoneNumber,
-        "googlewebsite": detailedResults["url"],
-        "open_now": detailedResults["opening_hours"]["open_now"],
-        "working_hours": detailedResults["opening_hours"]["weekday_text"]
-    }
+    if request.user.is_authenticated:
+        API_KEY = environ["API_KEY"]
+        currentProfile = Profile.objects.get(pk=request.user.id)
+        map_client = Client(API_KEY)
+        location = (currentProfile.latitude, currentProfile.longitude)
+        keyword = currentProfile.restaurant_type
+        distance = currentProfile.distance
+        try:
+            response = map_client.places_nearby(
+                location=location,
+                keyword=keyword, 
+                radius=distance
+            )
+            randRest = choice(response.get("results"))
+        except:
+            return render(request, "home.html", context={
+                "error": True
+            })
+        try:
+            price_level = randRest["price_level"]
+        except:
+            price_level = "-1"
+        try:
+            image = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+randRest["photos"][0]["photo_reference"]+"&key="+API_KEY
+        except:
+            image = "https://lordspalace.com/wp-content/uploads/2022/12/167492439-no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-comin.webp"
 
-    return render(request, "home.html", context=restaurantResults)
+        randRestId = randRest["place_id"]
+        responseURL = ("https://maps.googleapis.com/maps/api/place/details/json?placeid=" + str(randRestId) + "&key=" + API_KEY)
+        detailedResponse = requests.get(responseURL)
+
+        detailedResults = detailedResponse.json()["result"]
+        # pprint(detailedResults)
+        try:
+            website = detailedResults["website"]
+        except:
+            website = "?"
+
+        try:
+            phoneNumber = detailedResults["formatted_phone_number"]
+        except:
+            phoneNumber = "N/A"
+        
+        try:
+            openNow =  detailedResults["opening_hours"]["open_now"],
+            openNow = openNow[0]
+        except:
+            openNow = False
+        
+        restaurantResults = {
+            "restaurant_name": randRest["name"],
+            "address": detailedResults["formatted_address"],
+            "restaurant_rating": randRest["rating"],
+            "image": image,
+            "restaurant_type": keyword,
+            "price_level": price_level,
+            "website": website,
+            "phone_number": phoneNumber,
+            "googlewebsite": detailedResults["url"],
+            "working_hours": detailedResults["opening_hours"]["weekday_text"],
+            "open_now": openNow
+        }
+        return render(request, "home.html", context=restaurantResults)
+    return render(request, "home.html")
+
 
 def saved(request):
     # If the delete button is clicked, remove the restaurant from the current user's saved list
