@@ -184,6 +184,10 @@ def home(request):
             openNow = openNow[0]
         except:
             openNow = False
+        try:
+            workingHours = detailedResults["opening_hours"]["weekday_text"]
+        except:
+            workingHours = "N/A"
         
         restaurantResults = {
             "restaurant_name": randRest["name"],
@@ -195,7 +199,7 @@ def home(request):
             "website": website,
             "phone_number": phoneNumber,
             "googlewebsite": detailedResults["url"],
-            "working_hours": detailedResults["opening_hours"]["weekday_text"],
+            "working_hours": workingHours,
             "open_now": openNow
         }
         return render(request, "home.html", context=restaurantResults)
