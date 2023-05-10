@@ -22,9 +22,9 @@ If you are not sure how to generate this key, you can run the following code sni
 from django.core.management.utils import get_random_secret_key
 print(get_random_secret_key())
 `
-5. WIthin the views.py, you have to add your google apis key.  Goto the google apis website and create a key for google maps.  please change the following line of code:
+5. Within the views.py from the randRest directory, you have to add your google apis key.  Goto the google apis website and create a key for google maps.  please change the following line of code:
 `API_KEY = environ["API_KEY"]`
-To: `API_KEY = "[YOURAPIKEY]"`
+To: `API_KEY = "YOURAPIKEYGOESHERE"
 
 6. Please pip install the following libraries if you have not already:
 `pip install googlemaps`
