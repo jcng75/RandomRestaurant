@@ -22,6 +22,18 @@ If you are not sure how to generate this key, you can run the following code sni
 from django.core.management.utils import get_random_secret_key
 print(get_random_secret_key())
 `
-5. Within the *src* directory (the outer one), run the following command: `python manage.py runserver`
+5. WIthin the views.py, you have to add your google apis key.  Goto the google apis website and create a key for google maps.  please change the following line of code:
+`API_KEY = environ["API_KEY"]`
+To: `API_KEY = "[YOURAPIKEY]"`
+
+6. Please pip install the following libraries if you have not already:
+`pip install googlemaps`
+`pip install geopy`
+
+7. Within the *src* directory (the outer one) in terminal please run the following 2 commands to add our models:
+`python manage.py makemigrations`
+`python manage.py migrate`
+
+8. Within the *src* directory (the same one from step 7), run the following command: `python manage.py runserver`
 
 From there, you should be able to view the webserver in a browser entering the URL: *http://127.0.0.1:8000/*
