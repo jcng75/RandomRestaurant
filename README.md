@@ -24,7 +24,7 @@ print(get_random_secret_key())
 `
 5. Within the views.py from the randRest directory, you have to add your google apis key.  Goto the google apis website and create a key for google maps.  please change the following line of code:
 `API_KEY = environ["API_KEY"]`
-To: `API_KEY = "YOURAPIKEYGOESHERE"
+To: `API_KEY = "YOURAPIKEYGOESHERE"`
 
 6. Please pip install the following libraries if you have not already:
 `pip install googlemaps`
